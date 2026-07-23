@@ -7,6 +7,7 @@ set(CMAKE_CXX_STANDARD 17)
 #basically this will change the RESOURCES_PATH to be the local path
 #! ! ! ! ! ! !
 #delete the out folder after changing if visual studio doesn recognize the change
+
 set(PRODUCTION_BUILD ON CACHE BOOL "Make this a production build" FORCE)
 
 if(MSVC) 
@@ -80,7 +81,6 @@ elseif(APPLE OR UNIX) # macOS / Linux
 		target_link_options("${CMAKE_PROJECT_NAME}" PRIVATE -s)
 	endif()
 endif()
-
 
 target_include_directories("${CMAKE_PROJECT_NAME}" PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/src/gameLayer")
 target_include_directories("${CMAKE_PROJECT_NAME}" PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/src/platform")
