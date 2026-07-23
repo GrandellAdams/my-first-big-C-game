@@ -22,5 +22,5 @@ bool updateGame()
 
 void closeGame()
 {
-	std::cout << "\n\nCLOSED!!!!!!!!!\n\n";
+
 }
