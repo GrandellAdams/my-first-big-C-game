@@ -10,14 +10,31 @@ int main()
 	SetConfigFlags(FLAG_WINDOW_RESIZABLE);
 	InitWindow(800, 450, "window name");
 
+#pragma region imgui
 	rlImGuiSetup(true);
+
+	ImGuiIO& io = ImGui::GetIO();
+	////io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;        // Enable Keyboard Controls
+	////io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;        //  Enable gamepad Controls
+	io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;           //  Enable Docking
+	io.FontGlobalScale = 2; //you can make it even bigger!
+
+#pragma endregion
 
 	while (!WindowShouldClose())
 	{
 		BeginDrawing();
 		ClearBackground(RAYWHITE);
 
+#pragma region imgui
 		rlImGuiBegin();
+
+		//docking stuff...
+		ImGui::PushStyleColor(ImGuiCol_WindowBg, {});
+		ImGui::PushStyleColor(ImGuiCol_DockingEmptyBg, {});
+		ImGui::DockSpaceOverViewport(ImGui::GetMainViewport());
+		ImGui::PopStyleColor(2);
+#pragma endregion
 
 		Color c;
 		c.r = 255;
@@ -27,14 +44,44 @@ int main()
 
 		DrawText("Congrats! You created your first window!", 190, 200, 20, c);
 
+		static bool jump = false;
+		static bool sprint = false;
+
 		ImGui::Begin("test");
 
 		ImGui::Text("hello");
-		ImGui::Button("button");
+		if (ImGui::Button("button"))
+		{
+			std::cout << "Text\n";
+		}
+		ImGui::SameLine();
+		if (ImGui::Button("button2"))
+		{
+			std::cout << "Second button\n";
+		}
 
 		ImGui::End();
 
+
+		ImGui::Begin("second window");
+
+		ImGui::Text("hello");
+		ImGui::Separator();
+		ImGui::NewLine();
+		static float a = 0;
+		ImGui::SliderFloat("slider", &a, 0, 1);
+		ImGui::Separator();
+		ImGui::Checkbox("jump", &jump);
+		ImGui::RadioButton("sprint", &sprint);
+
+		ImGui::End();
+
+		ImGui::ShowDemoWindow();
+
+#pragma region imgui
 		rlImGuiEnd();
+
+#pragma endregion
 
 		EndDrawing();
 	}
